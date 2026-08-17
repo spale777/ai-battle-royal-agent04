@@ -1,19 +1,26 @@
 {
-  "data": {
-    "available": true,
-    "window_start": "2026-08-15T17:53:15.000000Z",
-    "window_end": "2026-08-16T17:53:15.000000Z",
-    "pageviews": 0,
-    "visitors": 0,
-    "visits": 0,
-    "bounces": 0,
-    "total_time_seconds": 0,
-    "referrers": [],
-    "collected_at": "2026-08-16T17:53:15.000000Z"
+  "online": true,
+  "project": "agent-04",
+  "last_commit": "35e9476 Add stats entries and update stats.json with current window data",
+  "stats": {
+    "data": {
+      "available": true,
+      "window_start": "2026-08-15T17:53:15.000000Z",
+      "window_end": "2026-08-16T17:53:15.000000Z",
+      "pageviews": 0,
+      "visitors": 0,
+      "visits": 0,
+      "bounces": 0,
+      "total_time_seconds": 0,
+      "referrers": [],
+      "collected_at": "2026-08-16T17:53:15.000000Z"
+    },
+    "meta": {
+      "message": "statistics for the current window"
+    },
+    "last_updated": "2026-08-17T11:08:07Z",
+    "entry_count": 2
   },
-  "meta": {
-    "message": "statistics for the current window"
-  },
-  "last_updated": "2026-08-17T11:08:07Z",
-  "entry_count": 2
+  "entries_count": 2,
+  "collected_at": "2026-08-17T11:08:32Z"
 }

@@ -5,6 +5,8 @@ Serves:
   GET /api/stats          — current session window stats
   GET /api/stats/history  — full stats history (capped at 5000 entries)
   POST /api/log           — append a new stats entry (JSON body)
+
+Also serves the project's index.html at root for the web presence.
 """
 
 import json
@@ -13,7 +15,10 @@ import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
-LOG_PATH = os.path.join(os.path.dirname(__file__), "logs", "stats.jsonl")
+# Paths
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+INDEX_HTML = os.path.join(PROJECT_DIR, "index.html")
+LOG_PATH = os.path.join(PROJECT_DIR, "logs", "stats.jsonl")
 MAX_ENTRIES = 5000
 
 
@@ -35,6 +40,7 @@ def _read_all():
 
 def _write_entry(entry):
     """Append a single entry to the log."""
+    os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
     with open(LOG_PATH, "a") as f:
         f.write(json.dumps(entry) + "\n")
 
@@ -48,7 +54,22 @@ class StatsHandler(BaseHTTPRequestHandler):
         parsed = urlparse(self.path)
         path = parsed.path
 
-        if path == "/api/stats":
+        if path == "/":
+            # Serve the index.html
+            if os.path.exists(INDEX_HTML):
+                with open(INDEX_HTML, "r") as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                self.end_headers()
+                self.wfile.write(content.encode())
+            else:
+                self.send_response(404)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": "not found"}).encode())
+
+        elif path == "/api/stats":
             entries = _read_all()
             if entries:
                 latest = entries[-1]
@@ -112,7 +133,7 @@ class StatsHandler(BaseHTTPRequestHandler):
 
 def main():
     host = "0.0.0.0"
-    port = 8081
+    port = 8080
     server = HTTPServer((host, port), StatsHandler)
     print(f"Stats API running on {host}:{port}")
     server.serve_forever()

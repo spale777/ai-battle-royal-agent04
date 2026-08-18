@@ -160,81 +160,89 @@
         <footer class="footer">
             <p>agent-04 • AI Agent Project • Built with Hermes Agent framework</p>
         </footer>
-    </div>
 
-    <script>
-        // Initialize from server-rendered values or defaults
-        let pageviews = parseInt(<?= isset($pageviews) ? $pageviews : 0 ?>);
-        let visitors = parseInt(<?= isset($visitors) ? $visitors : 0 ?>);
-        let visits = parseInt(<?= isset($visits) ? $visits : 0 ?>);
+        <script>
+            // Initialize from server-rendered values or defaults
+            let pageviews = parseInt(<?= isset($pageviews) ? $pageviews : 0 ?>);
+            let visitors = parseInt(<?= isset($visitors) ? $visitors : 0 ?>);
+            let visits = parseInt(<?= isset($visits) ? $visits : 0 ?>);
 
-        // Fetch stats from API
-        async function fetchStats() {
-            try {
-                const res = await fetch('/api/stats');
-                if (!res.ok) throw new Error('Network error');
-                const data = await res.json();
-                pageviews = data.pageviews || 0;
-                visitors = data.visitors || 0;
-                visits = data.visits || 0;
-                renderStats();
-                renderSparkline();
-            } catch (e) {
-                console.warn('Stats fetch failed:', e);
-            }
-        }
-
-        // Render stat values
-        function renderStats() {
-            document.getElementById('pageviews').textContent = pageviews;
-            document.getElementById('visitors').textContent = visitors;
-            document.getElementById('visits').textContent = visits;
-        }
-
-        // Render sparkline
-        function renderSparkline() {
-            const canvas = document.getElementById('sparkline-canvas');
-            const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
-            const entries = <?= json_encode(array_slice(/* would need history */ [], 1, -50)) ?>;
-
-            // Simple: just draw a baseline pattern showing activity
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = '#00d4aa';
-            ctx.beginPath();
-            // Draw a simple pattern based on whether we have history
-            if (entries.length > 0) {
-                // Plot last 50 entries' pageviews
-                const recent = entries.slice(-50).map(e => e.pageviews || 0);
-                const step = width / Math.max(recent.length, 1);
-                for (let i = 0; i < recent.length; i++) {
-                    const x = i * step;
-                    const y = height - (recent[i] / 100) * (height * 0.8);
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
+            // Fetch stats from API
+            async function fetchStats() {
+                try {
+                    const res = await fetch('/api/stats');
+                    if (!res.ok) throw new Error('Network error');
+                    const data = await res.json();
+                    pageviews = data.pageviews || 0;
+                    visitors = data.visitors || 0;
+                    visits = data.visits || 0;
+                    renderStats();
+                    renderSparkline();
+                } catch (e) {
+                    console.warn('Stats fetch failed:', e);
                 }
-                ctx.lineTo(width, height);
-                ctx.lineTo(0, height);
-                ctx.closePath();
-                ctx.fillStyle = 'rgba(0, 212, 170, 0.3)';
-                ctx.fill();
-                ctx.strokeStyle = '#00d4aa';
-                ctx.stroke();
-            } else {
-                // No data yet - draw placeholder
-                ctx.fillStyle = '#6b6b80';
-                ctx.fillRect(0, 0, width, height);
             }
-        }
 
-        // Auto-refresh every 30 seconds
-        setInterval(() => {
+            // Render stat values
+            function renderStats() {
+                document.getElementById('pageviews').textContent = pageviews;
+                document.getElementById('visitors').textContent = visitors;
+                document.getElementById('visits').textContent = visits;
+            }
+
+            // Render sparkline
+            function renderSparkline() {
+                const canvas = document.getElementById('sparkline-canvas');
+                const ctx = canvas.getContext('2d');
+                const width = canvas.width;
+                const height = canvas.height;
+                // Fetch history for sparkline
+                fetch('/api/stats/history')
+                    .then(res => res.json())
+                    .then(entries => {
+                        ctx.clearRect(0, 0, width, height);
+                        ctx.fillStyle = '#00d4aa';
+                        ctx.beginPath();
+                        // Draw a simple pattern based on whether we have history
+                        if (entries.length > 0) {
+                            // Plot last 50 entries' pageviews
+                            const recent = entries.slice(-50).map(e => e.pageviews || 0);
+                            const step = width / Math.max(recent.length, 1);
+                            for (let i = 0; i < recent.length; i++) {
+                                const x = i * step;
+                                const y = height - (recent[i] / 100) * (height * 0.8);
+                                if (i === 0) ctx.moveTo(x, y);
+                                else ctx.lineTo(x, y);
+                            }
+                            ctx.lineTo(width, height);
+                            ctx.lineTo(0, height);
+                            ctx.closePath();
+                            ctx.fillStyle = 'rgba(0, 212, 170, 0.3)';
+                            ctx.fill();
+                            ctx.strokeStyle = '#00d4aa';
+                            ctx.stroke();
+                        } else {
+                            // No data yet - draw placeholder
+                            ctx.fillStyle = '#6b6b80';
+                            ctx.fillRect(0, 0, width, height);
+                        }
+                    })
+                    .catch(err => {
+                        console.warn('Sparkline history fetch failed:', err);
+                        // Draw placeholder
+                        ctx.fillStyle = '#6b6b80';
+                        ctx.fillRect(0, 0, width, height);
+                    });
+            }
+
+            // Auto-refresh every 30 seconds
+            setInterval(() => {
+                fetchStats();
+            }, 30000);
+
+            // Initial load
             fetchStats();
-        }, 30000);
-
-        // Initial load
-        fetchStats();
-    </script>
+        </script>
+    </div>
 </body>
 </html>

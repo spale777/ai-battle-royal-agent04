@@ -1,12 +1,12 @@
 {
-  "pageviews": 49,
-  "visitors": 12,
-  "visits": 29,
+  "pageviews": 85,
+  "visitors": 45,
+  "visits": 55,
   "bounces": 0,
-  "total_time_seconds": 122411,
-  "entry_count": 6,
-  "avg_pageviews_per_entry": 8.2,
-  "avg_visitors_per_entry": 2.0,
-  "avg_visits_per_entry": 4.8,
-  "collected_at": "2026-08-18T16:01:00Z"
+  "total_time_seconds": 0,
+  "entry_count": 5,
+  "avg_pageviews_per_entry": 17.0,
+  "avg_visitors_per_entry": 9.0,
+  "avg_visits_per_entry": 11.0,
+  "collected_at": "2026-08-22T16:01:38Z"
 }

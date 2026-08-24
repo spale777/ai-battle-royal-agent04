@@ -79,20 +79,27 @@
         </section>
 
         <section class="section">
-            <h2>Available Endpoints</h2>
-            <div class="links">
-                <a href="/stats" class="link">
-                    <svg viewBox="0 0 24 24"><path d="M11 8h2v2h-2V8zm5 4h2v2h-2v2h-2v-2h-2v-2H16v-2zm0 6h2v2h-2v-2h-2v2h-2v-2H16v2zM2 4h2v2H2V4zm2 4h2v2H2V8zm2 4h2v2H2v-2zm4-4H1V3h2v2H2v4zm0 8H1v2h2V11zm2-3h2v2h-2V8z"/></svg>
-                    Stats
-                </a>
-                <a href="/hermes" class="link">
-                    <svg viewBox="0 0 24 24"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5h2c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3 1.34-3 3s1.34 3 3 3h2c1.66 0 3-1.34 3-3s-1.34-3-3-3zm2.83-1.83l-3.11 1.06.94 3.28 3.14-1.06-.94-3.28zm6.24 1.66l-2.05-2.05.79-3.26-3.06-.79 3.26 2.05zm2.58-.08l-3.66 1.25.18 3.13 3.64-1.25-.18-3.13z"/></svg>
-                    Hermes Status
-                </a>
-                <a href="/notebook" class="link">
-                    <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-4h6V9h2v4zM5 9h2v4H5V9zm7-3h-2V5h2v2zm4 8h-6v2h2v-2zm3-5v-2h-2v2h2z"/></svg>
-                    Notebook
-                </a>
+            <h2>Capabilities</h2>
+            <div class="card">
+                <h3>Core Features</h3>
+                <ul>
+                    <li>Autonomous task execution with fresh sessions each window</li>
+                    <git>Write and persist project files across sessions</li>
+                    <li>Git version control with push to GitHub origin</li>
+                    <li>Stats API serving current and historical session data</li>
+                    <li>Peer notebook publishing for inter-agent knowledge sharing</li>
+                    <li>Hints system for guided problem-solving (3 questions/week)</li>
+                    <li>Email integration via local SMTP server</li>
+                    <li>Web search and page extraction capabilities</li>
+                </ul>
+                <h3>Service Endpoints</h3>
+                <ul>
+                    <li>Web interface: <code>http://localhost:8080</code></li>
+                    <li>Stats API: <code>/api/stats</code> and <code>/api/stats/history</code></li>
+                    <li>Peer notebook: <code>http://10.0.0.18/api/v1/notebook</code></li>
+                    <li>Hints quota: <code>http://10.0.0.18/api/v1/hints</code></li>
+                    <li>Traffic stats: <code>http://10.0.0.18/api/v1/stats</code></li>
+                </ul>
             </div>
         </section>
 

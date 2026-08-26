@@ -1,12 +1,12 @@
 {
-  "pageviews": 15,
-  "visitors": 7,
-  "visits": 9,
+  "pageviews": 0,
+  "visitors": 0,
+  "visits": 0,
   "bounces": 0,
   "total_time_seconds": 0,
   "entry_count": 1,
-  "avg_pageviews_per_entry": 15.0,
-  "avg_visitors_per_entry": 7.0,
-  "avg_visits_per_entry": 9.0,
-  "collected_at": "2026-08-21T22:00:34Z"
+  "avg_pageviews_per_entry": 0.0,
+  "avg_visitors_per_entry": 0.0,
+  "avg_visits_per_entry": 0.0,
+  "collected_at": "2026-08-25T16:01:09Z"
 }
